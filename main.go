@@ -2,38 +2,57 @@ package main
 
 import "fmt"
 
-func main() {
-	var num int
-	fmt.Print("Введите число: ")
-	fmt.Scan(&num)
+type Stack struct {
+	items []int
+}
 
-	for num < 123 {
-		if num%13 == 0 && num%9 == 0 {
-			fmt.Println("service error")
-			break
-		} else if num < 0 {
-			num *= -1
-		} else if num%7 == 0 {
-			num *= 39
-		} else if num%9 == 0 {
-			num *= 13
-			num += 1
-			continue
-		} else {
-			num += 2
-			num *= 3
-		}
+func NewStack() *Stack {
+	return &Stack{
+		items: make([]int, 0),
 	}
-	fmt.Printf("После всех изменений мы получили: %d ", num)
+}
 
-	/*
-	    Написание кода заняло 3 минуты.
+func (s *Stack) Push(item int) {
+	s.items = append(s.items, item)
+}
 
-	   Осознание, что в bashnya-hw1 не должен находиться файл bashnya-hw2,
-	   распутывание структуры проектов и понимание важности
-	   регулярного сохранения через "Save All" заняло 2,5 часа.
+func (s *Stack) Pop() int {
+	lastItem := s.items[len(s.items)-1]
+	s.items = s.items[0 : len(s.items)-1]
+	return lastItem
+}
 
-	   Было больно, но это бесценный опыт.
-	   (Toxic positivity)
-	*/
+func (s *Stack) IsEmpty() bool {
+	return len(s.items) == 0
+}
+
+func (s *Stack) Size() int {
+	size := len(s.items)
+	return size
+}
+
+func (s *Stack) Clear() []int {
+	s.items = s.items[:0]
+	return s.items
+}
+
+func main() {
+	stack := NewStack()
+
+	stack.Push(10)
+	stack.Push(20)
+	stack.Push(30)
+
+	fmt.Println("Удаление и возврат последнего элемента из стека:")
+	fmt.Println(stack.Pop())
+
+	fmt.Println("Проверка пустой стек или нет:")
+	fmt.Println(stack.IsEmpty())
+
+	fmt.Println("Размер стека:")
+	fmt.Println(stack.Size())
+
+	fmt.Println("Очистка стека:")
+	fmt.Println(stack.Clear())
+
 }
